@@ -46,7 +46,7 @@ namespace Snake_Game
             timer1.Start();
 
             //========= Disable Setting and Start =========
-            trackBar1.Enabled = false;
+            trackBar.Enabled = false;
             startButton.Enabled = false;
             nameBox.Enabled = false;
 
@@ -111,6 +111,78 @@ namespace Snake_Game
                 gamePanel.Controls.Add(food);
             }
 
+        }
+
+        private void trackBar_Scroll(object sender, EventArgs e)
+        {
+            //Change interval of timer with the value of speed trackbar
+            timer1.Interval = 501 - (5 * trackBar.Value);
+
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            move();
+        }
+
+        private void move()
+        {
+            Point point = new Point(0, 0);
+
+            //Loop for moving each part of snake according to direction
+            for (int i = 0; i < snakeSize; i++)
+            {
+                if(i == 0)
+                {
+                    point = snakeParts[i].Location;
+                    if (direction == "Left")
+                    {
+                        snakeParts[i].Location = new Point(snakeParts[i].Location.X - 15, snakeParts[i].Location.Y);
+                    }
+                    if (direction == "Right")
+                    {
+                        snakeParts[i].Location = new Point(snakeParts[i].Location.X + 15, snakeParts[i].Location.Y);
+                    }
+                    if (direction == "Top")
+                    {
+                        snakeParts[i].Location = new Point(snakeParts[i].Location.X, snakeParts[i].Location.Y - 15);
+                    }
+                    if (direction == "Down")
+                    {
+                        snakeParts[i].Location = new Point(snakeParts[i].Location.X, snakeParts[i].Location.Y + 15);
+                    }
+                }
+                else
+                {
+                    Point newPoint = snakeParts[i].Location;
+                    snakeParts[i].Location = point;
+                    point = newPoint;
+                }
+            }
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true){
+                direction = "Top";
+                changingDirection = true;
+            }
+            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+            {
+                direction = "Top";
+                changingDirection = true;
+            }
+            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+            {
+                direction = "Top";
+                changingDirection = true;
+            }
+            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+            {
+                direction = "Top";
+                changingDirection = true;
+            }
+            return base.ProcessCmdKey(ref msg, keyData);
         }
     }
 }

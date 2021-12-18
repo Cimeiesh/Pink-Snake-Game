@@ -36,7 +36,7 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.label3 = new System.Windows.Forms.Label();
             this.nameBox = new System.Windows.Forms.TextBox();
-            this.trackBar1 = new System.Windows.Forms.TrackBar();
+            this.trackBar = new System.Windows.Forms.TrackBar();
             this.label4 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.panel3 = new System.Windows.Forms.Panel();
@@ -46,10 +46,9 @@
             this.scoreLabel = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.timer2 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
             this.panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).BeginInit();
             this.panel3.SuspendLayout();
             this.panel5.SuspendLayout();
             this.SuspendLayout();
@@ -107,7 +106,7 @@
             this.panel2.BackColor = System.Drawing.Color.LightPink;
             this.panel2.Controls.Add(this.label3);
             this.panel2.Controls.Add(this.nameBox);
-            this.panel2.Controls.Add(this.trackBar1);
+            this.panel2.Controls.Add(this.trackBar);
             this.panel2.Controls.Add(this.label4);
             this.panel2.Location = new System.Drawing.Point(15, 103);
             this.panel2.Name = "panel2";
@@ -131,15 +130,16 @@
             this.nameBox.Size = new System.Drawing.Size(175, 20);
             this.nameBox.TabIndex = 6;
             // 
-            // trackBar1
+            // trackBar
             // 
-            this.trackBar1.Location = new System.Drawing.Point(217, 35);
-            this.trackBar1.Maximum = 100;
-            this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(350, 45);
-            this.trackBar1.TabIndex = 5;
-            this.trackBar1.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.trackBar1.Value = 50;
+            this.trackBar.Location = new System.Drawing.Point(217, 35);
+            this.trackBar.Maximum = 100;
+            this.trackBar.Name = "trackBar";
+            this.trackBar.Size = new System.Drawing.Size(350, 45);
+            this.trackBar.TabIndex = 5;
+            this.trackBar.TickStyle = System.Windows.Forms.TickStyle.None;
+            this.trackBar.Value = 50;
+            this.trackBar.Scroll += new System.EventHandler(this.trackBar_Scroll);
             // 
             // label4
             // 
@@ -222,6 +222,7 @@
             // timer1
             // 
             this.timer1.Interval = 250;
+            this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // label1
             // 
@@ -252,7 +253,7 @@
             this.Text = "Snake Game";
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar)).EndInit();
             this.panel3.ResumeLayout(false);
             this.panel3.PerformLayout();
             this.panel5.ResumeLayout(false);
@@ -271,7 +272,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox nameBox;
-        private System.Windows.Forms.TrackBar trackBar1;
+        private System.Windows.Forms.TrackBar trackBar;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel3;
@@ -281,7 +282,6 @@
         private System.Windows.Forms.Label scoreLabel;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Timer timer2;
         private System.Windows.Forms.Label label1;
     }
 }
