@@ -43,7 +43,7 @@
             this.label7 = new System.Windows.Forms.Label();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel5 = new System.Windows.Forms.Panel();
-            this.scoreLabel = new System.Windows.Forms.Label();
+            this.myScore = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.label1 = new System.Windows.Forms.Label();
@@ -192,22 +192,22 @@
             // panel5
             // 
             this.panel5.BackColor = System.Drawing.Color.Pink;
-            this.panel5.Controls.Add(this.scoreLabel);
+            this.panel5.Controls.Add(this.myScore);
             this.panel5.Controls.Add(this.label5);
             this.panel5.Location = new System.Drawing.Point(594, 103);
             this.panel5.Name = "panel5";
             this.panel5.Size = new System.Drawing.Size(282, 83);
             this.panel5.TabIndex = 9;
             // 
-            // scoreLabel
+            // myScore
             // 
-            this.scoreLabel.AutoSize = true;
-            this.scoreLabel.Font = new System.Drawing.Font("Microsoft Tai Le", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.scoreLabel.Location = new System.Drawing.Point(170, 17);
-            this.scoreLabel.Name = "scoreLabel";
-            this.scoreLabel.Size = new System.Drawing.Size(44, 51);
-            this.scoreLabel.TabIndex = 13;
-            this.scoreLabel.Text = "0";
+            this.myScore.AutoSize = true;
+            this.myScore.Font = new System.Drawing.Font("Microsoft Tai Le", 30F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.myScore.Location = new System.Drawing.Point(170, 17);
+            this.myScore.Name = "myScore";
+            this.myScore.Size = new System.Drawing.Size(44, 51);
+            this.myScore.TabIndex = 13;
+            this.myScore.Text = "0";
             // 
             // label5
             // 
@@ -279,7 +279,7 @@
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Label scoreLabel;
+        private System.Windows.Forms.Label myScore;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Timer timer1;
         private System.Windows.Forms.Label label1;

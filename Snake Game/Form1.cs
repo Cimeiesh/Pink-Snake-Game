@@ -28,7 +28,7 @@ namespace Snake_Game
             //========= Cleaning The Game For A New Game =========
             gamePanel.Controls.Clear();
             snakeBody = null;
-            scoreLabel.Text = "0";
+            myScore.Text = "0";
             snakeLenght = 5;
             direction = "Right";
             location = new Point(120, 120);
@@ -50,7 +50,7 @@ namespace Snake_Game
 
         private void stopButton_Click(object sender, EventArgs e)
         {
-
+            stopGame();
         }
 
         private void drawSnake()
@@ -152,6 +152,26 @@ namespace Snake_Game
                     point = newPoint;
                 }
             }
+
+            //========= Check If Snake Eats The Food =========
+            if (snakeBody[0].Location == foodLocation)
+            {
+                eatFood();
+                drawFood();
+            }
+
+            if(snakeBody[0].Location.X < 0 || snakeBody[0].Location.X >=570 || snakeBody[0].Location.Y < 0 || snakeBody[0].Location.Y >= 450)
+            {
+                stopGame();
+            }
+
+            for(int i = 3; i < snakeLenght; i++)
+            {
+                if(snakeBody[0].Location == snakeBody[i].Location)
+                {
+                    stopGame();
+                }
+            }
             changeDirection = false;
         }
 
@@ -178,6 +198,63 @@ namespace Snake_Game
                 changeDirection = true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        private void eatFood()
+        {
+            snakeLenght++;
+
+            //========= Incremented the snake =========
+            PictureBox[] currentSnake = snakeBody;
+            gamePanel.Controls.Clear();
+            snakeBody = new PictureBox[snakeLenght];
+
+            for(int i = 0; i < snakeLenght; i++)
+            {
+                snakeBody[i] = new PictureBox();
+                snakeBody[i].Size = new Size(15, 15);
+                snakeBody[i].BackColor = Color.HotPink;
+                snakeBody[i].BorderStyle = BorderStyle.FixedSingle;
+
+                if (i == 0)
+                {
+                    snakeBody[i].Location = foodLocation;
+                }
+                else
+                {
+                    snakeBody[i].Location = currentSnake[i-1].Location;
+                }
+                gamePanel.Controls.Add(snakeBody[i]);
+            }
+
+            //========= Incremented the Score =========
+            int currentScore = int.Parse(myScore.Text);
+            int newScore = currentScore + 10;
+            myScore.Text = newScore + "";
+        }
+
+        private void stopGame()
+        {
+            timer1.Stop();
+            startButton.Enabled = true;
+            trackBar.Enabled = true;
+            stopButton.Enabled = false;
+            nameBox.Enabled = true;
+
+            Label gameOver = new Label();
+            gameOver.Text = "Game \n Over";
+            gameOver.ForeColor = Color.DarkRed;
+            gameOver.Font = new Font("Arial", 100, FontStyle.Bold);
+            gameOver.Size = gameOver.PreferredSize;
+            gameOver.TextAlign = ContentAlignment.MiddleLeft;
+            
+
+            int X = gamePanel.Width / 2 - gameOver.Width / 2;
+            int Y = gamePanel.Height / 2 - gameOver.Height / 2;
+            gameOver.Location = new Point(X, Y);
+
+            gamePanel.Controls.Add(gameOver);
+            gameOver.BringToFront();
         }
     }
 }
