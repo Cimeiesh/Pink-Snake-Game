@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Snake_Game
@@ -14,11 +8,11 @@ namespace Snake_Game
     {
 
         // ========= My Snake Default =========
-        PictureBox[] snakeParts;
-        int snakeSize = 5;
+        PictureBox[] snakeBody;
+        int snakeLenght = 5;
         Point location = new Point(120, 120);
         string direction = "Right";
-        bool changingDirection = false;
+        bool changeDirection = false;
 
         //========= My Food Default =========
         PictureBox food = new PictureBox();
@@ -33,9 +27,9 @@ namespace Snake_Game
         {
             //========= Cleaning The Game For A New Game =========
             gamePanel.Controls.Clear();
-            snakeParts = null;
+            snakeBody = null;
             scoreLabel.Text = "0";
-            snakeSize = 5;
+            snakeLenght = 5;
             direction = "Right";
             location = new Point(120, 120);
 
@@ -61,18 +55,18 @@ namespace Snake_Game
 
         private void drawSnake()
         {
-            snakeParts = new PictureBox[snakeSize];
+            snakeBody = new PictureBox[snakeLenght];
 
             // ========= A Loop For Increasing The Snake =========
 
-            for (int i = 0; i < snakeSize; i++)
+            for (int i = 0; i < snakeLenght; i++)
             {
-                snakeParts[i] = new PictureBox();
-                snakeParts[i].Size = new Size(15, 15);
-                snakeParts[i].BackColor = Color.HotPink;
-                snakeParts[i].BorderStyle = BorderStyle.FixedSingle;
-                snakeParts[i].Location = new Point(location.X-(15*i), location.Y);
-                gamePanel.Controls.Add(snakeParts[i]);
+                snakeBody[i] = new PictureBox();
+                snakeBody[i].Size = new Size(15, 15);
+                snakeBody[i].BackColor = Color.HotPink;
+                snakeBody[i].BorderStyle = BorderStyle.FixedSingle;
+                snakeBody[i].Location = new Point(location.X-(15*i), location.Y);
+                gamePanel.Controls.Add(snakeBody[i]);
             }
         }
 
@@ -87,9 +81,9 @@ namespace Snake_Game
             //========= Check If Snake Eats The Food =========
             while (snakeEat)
             {
-                for(int i = 0;i < snakeSize; i++)
+                for(int i = 0;i < snakeLenght; i++)
                 {
-                    if(snakeParts[i].Location == new Point(Xrand, Yrand))
+                    if(snakeBody[i].Location == new Point(Xrand, Yrand))
                     {
                         Xrand = rnd.Next(38) * 15;
                         Yrand = rnd.Next(30) * 15;
@@ -110,7 +104,6 @@ namespace Snake_Game
                 food.Location = foodLocation;
                 gamePanel.Controls.Add(food);
             }
-
         }
 
         private void trackBar_Scroll(object sender, EventArgs e)
@@ -130,57 +123,59 @@ namespace Snake_Game
             Point point = new Point(0, 0);
 
             //Loop for moving each part of snake according to direction
-            for (int i = 0; i < snakeSize; i++)
+            for (int i = 0; i < snakeLenght; i++)
             {
                 if(i == 0)
                 {
-                    point = snakeParts[i].Location;
+                    point = snakeBody[i].Location;
                     if (direction == "Left")
                     {
-                        snakeParts[i].Location = new Point(snakeParts[i].Location.X - 15, snakeParts[i].Location.Y);
+                        snakeBody[i].Location = new Point(snakeBody[i].Location.X - 15, snakeBody[i].Location.Y);
                     }
                     if (direction == "Right")
                     {
-                        snakeParts[i].Location = new Point(snakeParts[i].Location.X + 15, snakeParts[i].Location.Y);
+                        snakeBody[i].Location = new Point(snakeBody[i].Location.X + 15, snakeBody[i].Location.Y);
                     }
                     if (direction == "Top")
                     {
-                        snakeParts[i].Location = new Point(snakeParts[i].Location.X, snakeParts[i].Location.Y - 15);
+                        snakeBody[i].Location = new Point(snakeBody[i].Location.X, snakeBody[i].Location.Y - 15);
                     }
                     if (direction == "Down")
                     {
-                        snakeParts[i].Location = new Point(snakeParts[i].Location.X, snakeParts[i].Location.Y + 15);
+                        snakeBody[i].Location = new Point(snakeBody[i].Location.X, snakeBody[i].Location.Y + 15);
                     }
                 }
                 else
                 {
-                    Point newPoint = snakeParts[i].Location;
-                    snakeParts[i].Location = point;
+                    Point newPoint = snakeBody[i].Location;
+                    snakeBody[i].Location = point;
                     point = newPoint;
                 }
             }
+            changeDirection = false;
         }
 
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
-            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true){
+            if (keyData == (Keys.Up) && direction != "Down" && changeDirection != true){
                 direction = "Top";
-                changingDirection = true;
+                changeDirection = true;
             }
-            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+
+            if (keyData == (Keys.Down) && direction != "Top" && changeDirection != true)
             {
-                direction = "Top";
-                changingDirection = true;
+                direction = "Down";
+                changeDirection = true;
             }
-            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+            if (keyData == (Keys.Left) && direction != "Right" && changeDirection != true)
             {
-                direction = "Top";
-                changingDirection = true;
+                direction = "Left";
+                changeDirection = true;
             }
-            if (keyData == (Keys.Up) && direction != "Down" && changingDirection != true)
+            if (keyData == (Keys.Right) && direction != "Left" && changeDirection != true)
             {
-                direction = "Top";
-                changingDirection = true;
+                direction = "Right";
+                changeDirection = true;
             }
             return base.ProcessCmdKey(ref msg, keyData);
         }
