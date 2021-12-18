@@ -1,5 +1,9 @@
 ﻿using System;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
 
 namespace Snake_Game
@@ -17,6 +21,12 @@ namespace Snake_Game
         //========= My Food Default =========
         PictureBox food = new PictureBox();
         Point foodLocation = new Point(0, 0);
+
+        //========= Database Variables =========
+        static String path = Path.GetFullPath(Environment.CurrentDirectory);
+        static String dataBaseName = "data.mdf";
+        string connectionString = @"Data Source=(localdb)\MSSQLLocalDB;AttachDbFilename=" + path + @"\" + dataBaseName + "; Integrated Security=True;";
+
 
         public Form1()
         {
@@ -255,6 +265,56 @@ namespace Snake_Game
 
             gamePanel.Controls.Add(gameOver);
             gameOver.BringToFront();
+
+
+            SaveToDatabase();
+            updateScoreBoard();
+        }
+
+        private void SaveToDatabase()
+        {
+            string query = "INSERT INTO scores(Date,Name,Scores) VALUES(@Date,@Name,@Scores);";
+            
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(query, connection))
+
+            {
+                command.Parameters.Add("@Date", SqlDbType.DateTime).Value = DateTime.Now;
+                command.Parameters.Add("@Name", SqlDbType.VarChar).Value = nameBox.Text;
+                command.Parameters.Add("@Scores", SqlDbType.Int).Value = myScore.Text;
+
+                try
+                {
+                    connection.Open();
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                catch
+                {
+                    throw;
+                }
+            }
+        }
+
+        private void updateScoreBoard()
+        {
+            string query = "SELECT Date, Name, Scores FROM scores";
+
+                using(SqlConnection connection = new SqlConnection(connectionString))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+
+                var ds = new DataSet();
+                adapter.Fill(ds);
+
+                scoreBoardView.DataSource = ds.Tables[0];
+
+                scoreBoardView.Columns[0].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+                scoreBoardView.Columns[1].AutoSizeMode = DataGridViewAutoSizeColumnMode.Fill;
+                scoreBoardView.Columns[2].AutoSizeMode = DataGridViewAutoSizeColumnMode.AllCells;
+
+                scoreBoardView.Sort(this.scoreBoardView.Columns[0], ListSortDirection.Descending);
+            }
         }
     }
 }
